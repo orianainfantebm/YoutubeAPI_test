@@ -1,0 +1,50 @@
+:root {
+    --bg-color: #b3c6b3;
+    --primary-color: #f2c7a1;
+    --secondary-color: #e4475b;
+    --tertiary-color:#eb7e77;
+    --quaternary-color:#bed4db;
+}
+
+body {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 16px;
+    background-color: #a19092;
+    margin: 0px;
+
+}
+
+.container-left{
+    background: rgb(231,232,230);
+    background: linear-gradient(183deg, rgba(231,232,230,1) 44%, rgb(223, 220, 227) 100%);
+}
+
+.container-right{
+    background: rgb(217,228,223);
+    background: linear-gradient(195deg, rgb(184, 199, 187) 8%, rgba(198,207,217,1) 100%);
+
+}
+
+.card {
+    width: 50rem;
+    height: 42rem;
+    padding: 2rem;
+    border-radius: 1rem;
+    font-size: 1rem;
+    color:white;
+    background: rgba(255, 255, 255, .25);
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+    border: 1.5px solid rgba(209, 213, 219, 0.3);
+    overflow: auto;
+}
+.card-title {
+    margin-top: 0;
+    margin-bottom: .5rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+.card p{
+    margin-bottom: 1.5rem;
+}
+
