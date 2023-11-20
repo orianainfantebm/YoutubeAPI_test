@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="WEB_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/API/src" isTestSource="false" packagePrefix="Google\" />
+      <sourceFolder url="file://$MODULE_DIR$/API/tests" isTestSource="true" />
+      <excludeFolder url="file://$MODULE_DIR$/API/vendor/composer" />
+      <excludeFolder url="file://$MODULE_DIR$/API/vendor/firebase/php-jwt" />
+      <excludeFolder url="file://$MODULE_DIR$/API/vendor/google/apiclient-services" />
+      <excludeFolder url="file://$MODULE_DIR$/API/vendor/google/auth" />
+      <excludeFolder url="file://$MODULE_DIR$/API/vendor/guzzlehttp/guzzle" />
+      <excludeFolder url="file://$MODULE_DIR$/API/vendor/guzzlehttp/promises" />
+      <excludeFolder url="file://$MODULE_DIR$/API/vendor/guzzlehttp/psr7" />
+      <excludeFolder url="file://$MODULE_DIR$/API/vendor/monolog/monolog" />
+      <excludeFolder url="file://$MODULE_DIR$/API/vendor/paragonie/constant_time_encoding" />
+      <excludeFolder url="file://$MODULE_DIR$/API/vendor/paragonie/random_compat" />
+      <excludeFolder url="file://$MODULE_DIR$/API/vendor/phpseclib/phpseclib" />
+      <excludeFolder url="file://$MODULE_DIR$/API/vendor/psr/cache" />
+      <excludeFolder url="file://$MODULE_DIR$/API/vendor/psr/http-message" />
+      <excludeFolder url="file://$MODULE_DIR$/API/vendor/psr/log" />
+      <excludeFolder url="file://$MODULE_DIR$/API/vendor/ralouphie/getallheaders" />
+      <excludeFolder url="file://$MODULE_DIR$/API/vendor/symfony/polyfill-intl-idn" />
+      <excludeFolder url="file://$MODULE_DIR$/API/vendor/symfony/polyfill-intl-normalizer" />
+      <excludeFolder url="file://$MODULE_DIR$/API/vendor/symfony/polyfill-php70" />
+      <excludeFolder url="file://$MODULE_DIR$/API/vendor/symfony/polyfill-php72" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>

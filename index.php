@@ -7,22 +7,26 @@ $client = new Google_Client();
 $client->setAuthConfig('secrets.json');
 $client->addScope(Google_Service_YouTube::YOUTUBE_READONLY);
 
-if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
-    $client->setAccessToken($_SESSION['access_token']);
+try {
+    if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
+        $client->setAccessToken($_SESSION['access_token']);
 
-    if ($client->isAccessTokenExpired()) {
-        unset($_SESSION['access_token']);
+        if ($client->isAccessTokenExpired()) {
+            unset($_SESSION['access_token']);
+            $authUrl = $client->createAuthUrl();
+        }
+    } else {
         $authUrl = $client->createAuthUrl();
     }
-} else {
-    $authUrl = $client->createAuthUrl();
 
-}
-
-if (isset($_GET['code'])) {
-    $client->fetchAccessTokenWithAuthCode($_GET['code']);
-    $_SESSION['access_token'] = $client->getAccessToken();
-    header('Location: ' . filter_var($_SERVER['PHP_SELF'], FILTER_SANITIZE_URL));
+    if (isset($_GET['code'])) {
+        $client->fetchAccessTokenWithAuthCode($_GET['code']);
+        $_SESSION['access_token'] = $client->getAccessToken();
+        header('Location: ' . filter_var($_SERVER['PHP_SELF'], FILTER_SANITIZE_URL));
+        exit();
+    }
+} catch (Exception $e) {
+    echo 'Error: ' . $e->getMessage();
     exit();
 }
 ?>
@@ -43,50 +47,50 @@ if (isset($_GET['code'])) {
 </head>
 <body>
 
-<div class="flex flex-row p-12 h-screen">
+<div class="flex flex-row h-screen sm:p-0 md:p-3 lg:-p-6">
+
         <?php
         if (isset($authUrl)) {
             // Mostrar enlace de inicio de sesión
             echo '
-<section class="container-left h-full w-full rounded-[18px] flex flex-col">
-        <div class="text-primary flex justify-center items-center p-[40px] mt-[150px] ">
-            <div class="relative">
-                <div class="w-[150px] h-[150px] bg-primaryLight rounded-full flex items-center justify-center">
-                    <i class="fa-solid fa-bug text-primary text-[50px]"></i>
+        <section class="container-left h-full w-full rounded-[18px] flex flex-col">
+            <div class="text-primary flex justify-center items-center p-[40px] mt-[150px] ">
+                <div class="relative">
+                    <div class="w-[150px] h-[150px] bg-primaryLight rounded-full flex items-center justify-center">
+                        <i class="fa-solid fa-bug text-primary text-[50px]"></i>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class=" flex justify-center items-center p-8">
-            <span class="text-primary text-[40px] font-medium"> YouTube - API</span>
-        </div>
-
-
-
-
+            <div class="flex justify-center items-center p-8">
+                <span class="text-primary text-[40px] font-medium"> YouTube - API</span>
+            </div>
+            <div class="flex justify-center items-center">
+                <span class="text-secondary text-[30px] font-medium">Welcome</span>
+            </div>
             <div class="flex justify-center items-center p-8" id="loggedOutContent">
                 <a class="bg-primaryDark text-center hover:bg-secondaryLight text-white hover:text-white font-bold py-2 px-8 rounded-[20px] text-[20px] w-[250px]" href="' . filter_var($authUrl, FILTER_SANITIZE_URL) . '">Iniciar Sesión</a>
             </div>
-            </section>
+        </section>
             
             ';
         } else {
             // Mostrar enlace de cierre de sesión
             echo '
-<section class="container-left h-full w-3/6 rounded-l-[18px] flex flex-col">
-        <div class="text-primary flex justify-center items-center p-[40px] mt-[150px] ">
-            <div class="relative">
-                <div class="w-[150px] h-[150px] bg-primaryLight rounded-full flex items-center justify-center">
-                    <i class="fa-solid fa-bug text-primary text-[50px]"></i>
+        <section class="container-left h-full w-3/6 rounded-l-[18px] flex flex-col">
+            <div class="text-primary flex justify-center items-center p-[40px] mt-[150px] ">
+                <div class="relative">
+                    <div class="w-[150px] h-[150px] bg-primaryLight rounded-full flex items-center justify-center">
+                        <i class="fa-solid fa-bug text-primary text-[50px]"></i>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class=" flex justify-center items-center p-8">
-            <span class="text-primary text-[40px] font-medium"> YouTube - API</span>
-        </div>
-                <div class="flex justify-center items-center p-8" id="loggedInContent">
-                    <a class="bg-primaryDark text-center hover:bg-secondaryLight text-white hover:text-white font-bold py-2 px-8 rounded-[20px] text-[20px] w-[250px]" href="logout.php">Cerrar Sesión</a>
-                </div>
-                </section>
+            <div class=" flex justify-center items-center p-8">
+                <span class="text-primary text-[40px] font-medium"> YouTube - API</span>
+            </div>
+            <div class="flex justify-center items-center p-8" id="loggedInContent">
+                 <a class="bg-primaryDark text-center hover:bg-secondaryLight text-white hover:text-white font-bold py-2 px-8 rounded-[20px] text-[20px] w-[250px]" href="logout.php">Cerrar Sesión</a>
+             </div>
+        </section>
             ';
         }
 
@@ -109,10 +113,6 @@ if (isset($_GET['code'])) {
         $date = date_create($createdAt);
         $date = date_format($date, 'Y-m-d H:i:s');
 
-
-
-
-
         ?>
 
 
@@ -125,12 +125,12 @@ if (isset($_GET['code'])) {
             ?>
 
 
-            <section class="container-right h-full w-3/6 rounded-r-[18px] flex justify-center items-center flex-col">
+            <section class="container-right h-full w-full rounded-r-[18px] flex justify-center items-center flex-col">
 
-                <div class="flex justify-center items-center p-8 text-secondaryDark text-[40px] font-medium">
-                    ¡Bienvenido &nbsp;<span class="text-primary text-[40px] font-medium"><?php echo $nombre ?>!</span>
+                <div class="flex justify-center items-center p-8 text-secondaryDark text-[40px] font-medium w-full">
+                    <span>¡Bienvenido &nbsp;<span class="text-primary text-[40px] font-medium"><?php echo $nombre ?>!</span></span>
                 </div>
-                <div class="card flex-col text-secondaryDark">
+                <div class="card flex-col text-secondaryDark w-full ml-2">
                     <h3 class="card-title text-center">Cuenta</h3>
                     <div class="flex items-center justify-center">
                         <div class="rounded-full h-32 w-32 overflow-hidden">
@@ -152,7 +152,7 @@ if (isset($_GET['code'])) {
 
 
                     <h3 class="mt-4 card-title text-center">Últimos videos subidos</h3>
-                    <div class="grid grid-cols-3 gap-4">
+                    <div class="grid grid-cols-1 gap-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 sm:gap-1 md:gap-2 lg:gap-3">
                     <?php
 
                     $videosResponse = $youtubeService->search->listSearch('snippet', array(
@@ -170,7 +170,7 @@ if (isset($_GET['code'])) {
                     ?>
 
                     <div class="flex flex-col items-center justify-center">
-                            <iframe width="200" height="200" src="https://www.youtube.com/embed/<?php echo $videoId; ?>"
+                            <iframe width="250" height="200" src="https://www.youtube.com/embed/<?php echo $videoId; ?>"
                                     title="<?php echo $videoTitle; ?>" frameborder="0"
                                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                                     allowfullscreen>
